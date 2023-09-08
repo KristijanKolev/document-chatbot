@@ -1,0 +1,14 @@
+services:
+  chroma-db:
+    image: ghcr.io/chroma-core/chroma:latest
+    volumes:
+      - ./data/index_data:/chroma/.chroma/index
+    ports:
+      - 8000:8000
+    networks:
+      - document-chatbot-network
+
+
+networks:
+  document-chatbot-network:
+    external: false

@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "document-chatbot"
+version = "0.1.0"
+description = ""
+authors = ["KristijanKolev <kikokolev@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+langchain = "^0.0.283"
+
+
+[tool.poetry.group.dev.dependencies]
+jupyterlab = "^4.0.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
