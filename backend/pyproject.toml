@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "document-chatbot"
+name = "backend"
 version = "0.1.0"
 description = ""
 authors = ["KristijanKolev <kikokolev@gmail.com>"]
@@ -8,10 +8,20 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 langchain = "^0.0.283"
+pypdf = "^3.15.5"
+openai = "^0.28.0"
+tiktoken = "^0.5.0"
+gpt4all = "^1.0.11"
+fastapi = "^0.103.1"
+sqlalchemy = "^2.0.21"
+alembic = "^1.12.0"
+pydantic-settings = "^2.0.3"
+chromadb = "^0.4.13"
 
 
 [tool.poetry.group.dev.dependencies]
 jupyterlab = "^4.0.5"
+
 
 [build-system]
 requires = ["poetry-core"]

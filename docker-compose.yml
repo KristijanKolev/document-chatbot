@@ -2,9 +2,22 @@ services:
   chroma-db:
     image: ghcr.io/chroma-core/chroma:latest
     volumes:
-      - ./data/index_data:/chroma/.chroma/index
+      - ./data/chromadb:/chroma/chroma
     ports:
       - 8000:8000
+    networks:
+      - document-chatbot-network
+
+  postgres:
+    image: postgres:16.0
+    environment:
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_pass
+      - POSTGRES_DB=fastapi_test
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
     networks:
       - document-chatbot-network
 
