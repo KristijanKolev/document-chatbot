@@ -34,5 +34,12 @@ class CRUDChatPrompt(CRUDBase[ChatPrompt, ChatPromptCreate, None]):
             .all()
         )
 
+    def get_all_by_session(self, db: Session, *, session_id: int) -> list[ChatPrompt]:
+        return (
+            db.query(self.model)
+            .filter(ChatPrompt.session_id == session_id)
+            .all()
+        )
+
 
 chat_prompt = CRUDChatPrompt(ChatPrompt)

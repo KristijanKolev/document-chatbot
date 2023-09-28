@@ -19,7 +19,6 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         **Parameters**
 
         * `model`: A SQLAlchemy model class
-        * `schema`: A Pydantic model (schema) class
         """
         self.model = model
 
@@ -30,6 +29,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self, db: Session, *, skip: int = 0, limit: int = 100
     ) -> List[ModelType]:
         return db.query(self.model).offset(skip).limit(limit).all()
+    
+    def get_all(self, db: Session) -> List[ModelType]:
+        return db.query(self.model).all()
+
 
     def create(self, db: Session, *, obj_in: CreateSchemaType) -> ModelType:
         obj_in_data = jsonable_encoder(obj_in)

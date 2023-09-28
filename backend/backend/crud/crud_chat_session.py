@@ -5,3 +5,6 @@ from .base import CRUDBase
 
 class CRUDChatSession(CRUDBase[ChatSession, ChatSessionCreate, ChatSessionUpdate]):
     pass
+
+
+chat_session = CRUDChatSession(ChatSession)
