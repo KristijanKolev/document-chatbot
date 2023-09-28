@@ -1,6 +1,8 @@
+from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
-from .chat_session import ChatSession
+if TYPE_CHECKING:
+    from .chat_session import ChatSession
 
 
 class ChatPromptBase(BaseModel):
@@ -10,10 +12,10 @@ class ChatPromptBase(BaseModel):
 class ChatPrompt(BaseModel):
     id: int
     answer: str
-    session: ChatSession
+    session: 'ChatSession'
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class ChatPromptIn(BaseModel):
