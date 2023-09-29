@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
-    from .chat_prompt import ChatPrompt
+    from .chat_prompt import ChatPromptSimple
 
 
 class ChatSessionBase(BaseModel):
@@ -11,7 +11,7 @@ class ChatSessionBase(BaseModel):
 
 class ChatSession(ChatSessionBase):
     id: int
-    prompts: list['ChatPrompt']
+    prompts: list['ChatPromptSimple']
 
     class Config:
         from_attributes = True

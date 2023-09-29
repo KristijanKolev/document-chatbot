@@ -8,19 +8,25 @@ if TYPE_CHECKING:
 class ChatPromptBase(BaseModel):
     prompt: str
 
-
-class ChatPrompt(BaseModel):
-    id: int
-    answer: str
-    session: 'ChatSession'
-
     class Config:
         from_attributes = True
 
 
-class ChatPromptIn(BaseModel):
+class ChatPromptSimple(ChatPromptBase):
+    answer: str
+    session_id: int
+
+
+class ChatPrompt(ChatPromptBase):
+    id: int
+    answer: str
+    session: 'ChatSession'
+
+
+class ChatPromptIn(ChatPromptBase):
     pass
 
 
-class ChatPromptCreate(BaseModel):
+class ChatPromptCreate(ChatPromptBase):
     answer: str
+    session_id: int
