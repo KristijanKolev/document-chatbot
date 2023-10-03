@@ -13,7 +13,7 @@ services:
     environment:
       - POSTGRES_USER=db_user
       - POSTGRES_PASSWORD=db_pass
-      - POSTGRES_DB=fastapi_test
+      - POSTGRES_DB=doc-chatbot
     volumes:
       - ./data/pgdata:/var/lib/postgresql/data
     ports:
