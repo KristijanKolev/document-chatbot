@@ -38,5 +38,6 @@ def get_vector_store() -> Chroma:
     )
 
 
-def get_llm_service(vector_store: Annotated[VectorStore, Depends(get_vector_store)]) -> ConversationalRetrievalChain:
+def get_conversation_chain(
+        vector_store: Annotated[VectorStore, Depends(get_vector_store)]) -> ConversationalRetrievalChain:
     return llm_utils.build_conversation_chain(vector_store)

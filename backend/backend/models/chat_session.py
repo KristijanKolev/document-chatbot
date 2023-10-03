@@ -11,4 +11,4 @@ class ChatSession(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
 
-    prompts = relationship('ChatPrompt', back_populates="session")
+    prompts = relationship('ChatPrompt', back_populates="session", order_by='ChatPrompt.id')

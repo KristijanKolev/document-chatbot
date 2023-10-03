@@ -2,10 +2,11 @@ from typing import Annotated
 
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from langchain.chains import ConversationalRetrievalChain
 
 from backend import models, schemas, crud
 from backend.service import ChatSessionService
-from .deps import get_db, get_chat_session_service
+from .deps import get_db, get_chat_session_service, get_conversation_chain
 
 app = FastAPI()
 
@@ -26,6 +27,7 @@ def create_session(chat_session_service: Annotated[ChatSessionService, Depends(g
 def prompt_session(
         db: Annotated[Session, Depends(get_db)],
         chat_session_service: Annotated[ChatSessionService, Depends(get_chat_session_service)],
+        llm_chain: Annotated[ConversationalRetrievalChain, Depends(get_conversation_chain)],
         session_id: int,
         prompt_in: schemas.ChatPromptIn
 ):
@@ -33,4 +35,4 @@ def prompt_session(
     if not session:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'Session with id {session_id} not found!')
 
-    return chat_session_service.process_prompt(session=session, prompt_in=prompt_in)
+    return chat_session_service.process_prompt(llm_chain=llm_chain, session=session, prompt_in=prompt_in)
