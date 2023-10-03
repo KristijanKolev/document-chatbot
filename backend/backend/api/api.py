@@ -23,6 +23,17 @@ def create_session(chat_session_service: Annotated[ChatSessionService, Depends(g
     return chat_session_service.create_default_session()
 
 
+@app.put("/sessions/{session_id}", response_model=schemas.ChatSession)
+def update_session(
+        db: Annotated[Session, Depends(get_db)],
+        session_id: int,
+        session_in: schemas.ChatSessionUpdate
+):
+    session = crud.chat_session.get(db=db, id=session_id)
+    return crud.chat_session.update(db=db, db_obj=session, obj_in=session_in)
+
+
+
 @app.post("/sessions/{session_id}/prompt", response_model=schemas.ChatPrompt)
 def prompt_session(
         db: Annotated[Session, Depends(get_db)],
