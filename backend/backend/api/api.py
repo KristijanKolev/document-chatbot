@@ -33,7 +33,6 @@ def update_session(
     return crud.chat_session.update(db=db, db_obj=session, obj_in=session_in)
 
 
-
 @app.post("/sessions/{session_id}/prompt", response_model=schemas.ChatPrompt)
 def prompt_session(
         db: Annotated[Session, Depends(get_db)],
