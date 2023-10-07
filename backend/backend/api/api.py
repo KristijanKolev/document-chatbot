@@ -33,7 +33,11 @@ def update_session(
     return crud.chat_session.update(db=db, db_obj=session, obj_in=session_in)
 
 
-@app.post("/sessions/{session_id}/prompt", response_model=schemas.ChatPrompt)
+@app.post(
+    "/sessions/{session_id}/prompt",
+    response_model=schemas.ChatPrompt,
+    responses={status.HTTP_409_CONFLICT: {'model': schemas.BasicErrorResponse}}
+)
 def prompt_session(
         db: Annotated[Session, Depends(get_db)],
         chat_session_service: Annotated[ChatSessionService, Depends(get_chat_session_service)],
