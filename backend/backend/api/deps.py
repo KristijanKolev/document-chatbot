@@ -25,6 +25,10 @@ def get_chat_session_service(db: Annotated[Session, Depends(get_db)]) -> service
     return service.ChatSessionService(db)
 
 
+def get_user_service(db: Annotated[Session, Depends(get_db)]) -> service.UserService:
+    return service.UserService(db)
+
+
 def get_vector_store() -> Chroma:
     chroma_client = ChromaHttpClient(
         host=settings.CHROMA_HOST,

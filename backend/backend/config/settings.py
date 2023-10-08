@@ -27,5 +27,8 @@ class Settings(BaseSettings):
     CHROMA_PORT: int
     CHROMA_COLLECTION: str
 
+    GITHUB_CLIENT_ID: str
+    GITHUB_SECRET: str
+
 
 settings = Settings()
