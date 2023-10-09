@@ -27,5 +27,12 @@ class Settings(BaseSettings):
     CHROMA_PORT: int
     CHROMA_COLLECTION: str
 
+    GITHUB_CLIENT_ID: str
+    GITHUB_SECRET: str
+
+    JWT_SECRET_KEY: str
+    JWT_ALGORITHM: str = 'HS256'
+    JWT_EXPIRATION_DELTA: int = 15  # in minutes
+
 
 settings = Settings()
