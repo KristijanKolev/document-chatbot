@@ -5,8 +5,9 @@ from sqlalchemy.orm import Session
 from langchain.chains import ConversationalRetrievalChain
 
 from backend import schemas, crud
+from backend.models import User
 from backend.service import ChatSessionService
-from ..deps import get_db, get_chat_session_service, get_conversation_chain
+from ..deps import get_db, get_chat_session_service, get_conversation_chain, get_current_user
 
 
 router = APIRouter()
@@ -14,7 +15,8 @@ router = APIRouter()
 
 @router.get("/", response_model=list[schemas.ChatSession])
 def get_all_sessions(
-        db: Annotated[Session, Depends(get_db)]
+        db: Annotated[Session, Depends(get_db)],
+        user: Annotated[User, Depends(get_current_user)]
 ):
     return crud.chat_session.get_all(db)
 
