@@ -1,5 +1,3 @@
-from typing import Optional
-
 from sqlalchemy.orm import Session
 
 from backend.schemas.user import UserCreate, UserUpdate

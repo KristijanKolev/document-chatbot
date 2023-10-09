@@ -18,7 +18,7 @@ class ChatSession(ChatSessionBase):
 
 
 class ChatSessionCreate(ChatSessionBase):
-    pass
+    user_id: int
 
 
 class ChatSessionUpdate(ChatSessionBase):

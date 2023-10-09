@@ -12,8 +12,8 @@ class ChatSessionService:
     def __init__(self, db: Session) -> None:
         self.db = db
 
-    def create_default_session(self) -> models.ChatSession:
-        chat_session_in = schemas.ChatSessionCreate(name=self._DEFAULT_SESSION_NAME)
+    def create_default_session(self, user: models.User) -> models.ChatSession:
+        chat_session_in = schemas.ChatSessionCreate(name=self._DEFAULT_SESSION_NAME, user_id=user.id)
         return crud.chat_session.create(self.db, obj_in=chat_session_in)
 
     def process_prompt(self, llm_chain: ConversationalRetrievalChain, session: models.ChatSession,
