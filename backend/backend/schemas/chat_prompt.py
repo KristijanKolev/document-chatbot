@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from typing import TYPE_CHECKING
 from pydantic import BaseModel
 
@@ -15,12 +17,14 @@ class ChatPromptBase(BaseModel):
 class ChatPromptSimple(ChatPromptBase):
     answer: str
     session_id: int
+    created_at: datetime
 
 
 class ChatPrompt(ChatPromptBase):
     id: int
     answer: str
     session: 'ChatSession'
+    created_at: datetime
 
 
 class ChatPromptIn(ChatPromptBase):

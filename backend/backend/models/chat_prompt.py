@@ -3,9 +3,10 @@ from sqlalchemy.orm import relationship
 
 
 from ..db.database import Base
+from .mixins import TimestampMixin
 
 
-class ChatPrompt(Base):
+class ChatPrompt(Base, TimestampMixin):
     __tablename__ = 'chat_prompts'
 
     id = Column(Integer, primary_key=True, index=True)

@@ -1,4 +1,6 @@
 from typing import TYPE_CHECKING
+from datetime import datetime
+
 from pydantic import BaseModel
 
 if TYPE_CHECKING:
@@ -11,6 +13,7 @@ class ChatSessionBase(BaseModel):
 
 class ChatSession(ChatSessionBase):
     id: int
+    created_at: datetime
     prompts: list['ChatPromptSimple']
 
     class Config:

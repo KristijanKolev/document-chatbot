@@ -34,5 +34,8 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str = 'HS256'
     JWT_EXPIRATION_DELTA: int = 15  # in minutes
 
+    SESSIONS_LIMIT_PERIOD_LENGTH: int = 24  # in hours
+    SESSIONS_LIMIT_PER_PERIOD: int = 10  # Amount of new sessions allowed in last SESSIONS_LIMIT_PERIOD_LENGTH hours
+
 
 settings = Settings()
