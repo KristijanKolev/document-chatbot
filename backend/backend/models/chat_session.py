@@ -1,11 +1,11 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
-
 from ..db.database import Base
+from .mixins import TimestampMixin
 
 
-class ChatSession(Base):
+class ChatSession(Base, TimestampMixin):
     __tablename__ = 'chat_sessions'
 
     id = Column(Integer, primary_key=True, index=True)

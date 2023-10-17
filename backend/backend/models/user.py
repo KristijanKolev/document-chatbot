@@ -18,3 +18,11 @@ class User(Base):
         UniqueConstraint(id, sso_id, name="unique_sso_user"),
     )
 
+    def __eq__(self, other):
+        if not isinstance(other, User) or other.id is None:
+            return False
+
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)
