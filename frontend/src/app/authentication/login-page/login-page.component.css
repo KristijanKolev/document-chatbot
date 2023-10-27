@@ -1,0 +1,6 @@
+#main-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 30vh;
+  height: 100vh;
+}
