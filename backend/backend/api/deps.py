@@ -1,7 +1,6 @@
 from typing import Generator, Annotated
 
-from fastapi import Depends
-from fastapi import HTTPException, status
+from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from langchain.vectorstores import VectorStore, Chroma
 from langchain.embeddings import GPT4AllEmbeddings
@@ -9,7 +8,7 @@ from langchain.chains import ConversationalRetrievalChain
 from chromadb import HttpClient as ChromaHttpClient
 from jose import JWTError, jwt
 
-from backend import service, schemas, crud
+from backend import service, schemas, crud, models
 from backend.db.database import SessionLocal
 from backend.config.settings import settings
 from backend.util import llms as llm_utils
@@ -53,7 +52,8 @@ def get_conversation_chain(
 oauth2_scheme = OAuth2Bearer(auto_error=True)
 
 
-async def get_current_user(db: Annotated[Session, Depends(get_db)], token: Annotated[str, Depends(oauth2_scheme)]):
+async def get_current_user(db: Annotated[Session, Depends(get_db)],
+                           token: Annotated[str, Depends(oauth2_scheme)]) -> models.User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",

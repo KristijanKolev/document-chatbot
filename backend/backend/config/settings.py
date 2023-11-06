@@ -27,11 +27,13 @@ class Settings(BaseSettings):
     CHROMA_PORT: int
     CHROMA_COLLECTION: str
 
+    # OAUTH config
     GITHUB_CLIENT_ID: str
     GITHUB_SECRET: str
+    OAUTH_SUCCESS_REDIRECT_URL: str = "http://localhost:4200/"
 
     JWT_SECRET_KEY: str
-    JWT_ALGORITHM: str = 'HS256'
+    JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRATION_DELTA: int = 15  # in minutes
 
     SESSIONS_LIMIT_PERIOD_LENGTH: int = 24  # in hours
