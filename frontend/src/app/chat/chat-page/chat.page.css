@@ -1,0 +1,15 @@
+#main-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#sessions-sidebar {
+  height: 100vh;
+  width: 300px;
+  flex-shrink: 0;
+}
+
+#chat {
+  flex-grow: 1;
+  height: 100vh;
+}

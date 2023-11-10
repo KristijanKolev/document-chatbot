@@ -19,18 +19,9 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (this.cookieService.check('jwt')) {
       const token: string = this.cookieService.get('jwt');
-      this.authenticationService.get_current_user_details(token).subscribe(
-        (user: User) => {
-          console.log(user);
-        },
-        (error) => {
-          console.log(error);
-        }
-      )
+      this.authenticationService.setToken(token);
     } else {
       console.log('JWT cookie missing!')
     }
   }
-
-
 }

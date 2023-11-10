@@ -8,16 +8,20 @@ import {Observable} from "rxjs";
 })
 export class AuthenticationService {
 
-  public token = null;
+  public token?: string = undefined;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  public get_current_user_details(token: string): Observable<User> {
+  public getCurrentUser(token: string): Observable<User> {
     const headers: HttpHeaders = new HttpHeaders({
       Authorization: `Bearer ${token}`
     })
     return this.http.get<User>('/api/users/me', {headers: headers})
+  }
+
+  setToken(token?: string) {
+    this.token = token;
   }
 }

@@ -13,12 +13,20 @@ from ..deps import get_db, get_chat_session_service, get_conversation_chain, get
 router = APIRouter()
 
 
-@router.get("/", response_model=list[schemas.ChatSession])
+@router.get("/", response_model=list[schemas.ChatSessionSimple])
 def get_user_sessions(
         db: Annotated[Session, Depends(get_db)],
         user: Annotated[User, Depends(get_current_user)],
 ):
     return crud.chat_session.get_all_for_user(db, user=user)
+
+
+@router.get("/{session_id}", response_model=schemas.ChatSession)
+def get_session_details(
+        db: Annotated[Session, Depends(get_db)],
+        session_id: int,
+):
+    return crud.chat_session.get_or_404(db=db, id=session_id)
 
 
 @router.post("/", response_model=schemas.ChatSession)

@@ -1,0 +1,12 @@
+#main-container {
+  max-width: 1500px;
+  height: 100%;
+}
+
+#chat-history-box {
+  border-radius: 10px;
+}
+
+#input-box {
+
+}

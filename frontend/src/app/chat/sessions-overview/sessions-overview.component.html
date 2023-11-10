@@ -1,0 +1,16 @@
+<div id="main-container" class="border border-dark-subtle p-2">
+  <h3 class="m-1 my-3">
+    Sessions:
+  </h3>
+  <button id="add-session-button"
+          class="btn btn-outline-primary"
+          title="Create new chat session"
+  >
+    <i class="bi bi-plus-lg"></i>
+  </button>
+  <div *ngFor="let session of chatSessions"
+       (click)="sessionClick(session)"
+       class="item-container mt-2 px-2 border border-dark-subtle">
+    {{session.name}}
+  </div>
+</div>

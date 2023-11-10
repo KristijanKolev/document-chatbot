@@ -7,6 +7,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationModule } from "./authentication/authentication.module";
 import {HttpClientModule} from "@angular/common/http";
+import {authInterceptorProviders} from "./authentication/interceptors/auth-interceptor";
+import {ChatModule} from "./chat/chat.module";
+import {authErrorInterceptorProviders} from "./authentication/interceptors/error-interceptor";
 
 @NgModule({
   declarations: [
@@ -18,9 +21,12 @@ import {HttpClientModule} from "@angular/common/http";
     NgbModule,
     HttpClientModule,
     AuthenticationModule,
+    ChatModule
   ],
   providers: [
-    CookieService
+    CookieService,
+    authInterceptorProviders,
+    authErrorInterceptorProviders,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,11 @@
+<div id="main-container">
+  <div id="sessions-sidebar" class="p-2">
+    <app-sessions-overview [chatSessions]="allSessions"
+                           (onSessionSelect)="onSessionSelected($event)"
+    ></app-sessions-overview>
+  </div>
+  <div id="chat" class="p-2">
+    <app-chat-body [chatSession]="selectedSession"
+    ></app-chat-body>
+  </div>
+</div>
