@@ -11,9 +11,12 @@ class ChatSessionBase(BaseModel):
     name: str
 
 
-class ChatSession(ChatSessionBase):
+class ChatSessionSimple(ChatSessionBase):
     id: int
     created_at: datetime
+
+
+class ChatSession(ChatSessionSimple):
     prompts: list['ChatPromptSimple']
 
     class Config:

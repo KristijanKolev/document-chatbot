@@ -1,0 +1,31 @@
+#main-container {
+  max-width: 1500px;
+  height: 100%;
+}
+
+#chat-history-box {
+  border-radius: 10px;
+}
+
+.message-bubble {
+  border-radius: 8px;
+  display: inline-block;
+  max-width: 80%;
+}
+
+.prompt-container {
+  text-align: right;
+}
+
+#input-box {
+  display: flex;
+}
+
+#input-box input {
+  flex-grow: 1;
+}
+
+#input-box button {
+  flex-grow: 0;
+  flex-shrink: 0;
+}

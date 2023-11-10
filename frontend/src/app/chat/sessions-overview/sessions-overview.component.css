@@ -1,0 +1,25 @@
+#main-container {
+  max-width: 350px;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.item-container {
+  height: 50px;
+  width: 100%;
+  border-radius: 5px;
+  line-height: 50px;
+}
+
+.item-container:hover {
+  cursor: pointer;
+}
+
+#add-session-button {
+  border-radius: 5px;
+}
+
+.selected-session {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+

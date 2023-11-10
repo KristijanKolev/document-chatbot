@@ -1,4 +1,4 @@
-from .chat_session import ChatSessionCreate, ChatSession, ChatSessionUpdate
+from .chat_session import ChatSessionCreate, ChatSession, ChatSessionUpdate, ChatSessionSimple
 from .chat_prompt import ChatPrompt, ChatPromptCreate, ChatPromptIn, ChatPromptSimple
 from .basic import BasicErrorResponse
 from .user import User
