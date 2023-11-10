@@ -1,6 +1,6 @@
 export interface ChatPrompt {
-  prompt: string,
+  prompt?: string,
   answer?: string,
-  session_id: number,
-  created_at: Date
+  session_id?: number,
+  created_at?: Date
 }

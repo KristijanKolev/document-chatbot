@@ -4,8 +4,9 @@
                            (onSessionSelect)="onSessionSelected($event)"
     ></app-sessions-overview>
   </div>
-  <div id="chat" class="p-2">
+  <div *ngIf="selectedSession" id="chat" class="p-2">
     <app-chat-body [chatSession]="selectedSession"
+                   (onPrompt)="createPrompt($event)"
     ></app-chat-body>
   </div>
 </div>

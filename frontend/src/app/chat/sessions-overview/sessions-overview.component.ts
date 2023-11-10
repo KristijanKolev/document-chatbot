@@ -10,7 +10,10 @@ export class SessionsOverviewComponent {
   @Input() chatSessions: ChatSessionSimple[] = [];
   @Output() onSessionSelect: EventEmitter<ChatSessionSimple> = new EventEmitter<ChatSessionSimple>();
 
+  selectedSession?: ChatSessionSimple;
+
   sessionClick(session: ChatSessionSimple) {
+    this.selectedSession = session;
     this.onSessionSelect.emit(session)
   }
 }

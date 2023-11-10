@@ -10,7 +10,9 @@
   </button>
   <div *ngFor="let session of chatSessions"
        (click)="sessionClick(session)"
-       class="item-container mt-2 px-2 border border-dark-subtle">
+       class="item-container mt-2 px-2 border border-dark-subtle"
+       [ngClass]="{'selected-session': session.id == selectedSession?.id}"
+  >
     {{session.name}}
   </div>
 </div>

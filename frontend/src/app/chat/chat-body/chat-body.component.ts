@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {ChatSession} from "../../models/chatSession";
 
 @Component({
@@ -8,6 +8,7 @@ import {ChatSession} from "../../models/chatSession";
 })
 export class ChatBodyComponent implements OnChanges {
   @Input() chatSession?: ChatSession;
+  @Output() onPrompt: EventEmitter<string> = new EventEmitter<string>();
 
   newPromptText: string = '';
 
@@ -19,5 +20,10 @@ export class ChatBodyComponent implements OnChanges {
     if (newSession) {
       this.newPromptText = '';
     }
+  }
+
+  sendPrompt() {
+    this.onPrompt.emit(this.newPromptText);
+    this.newPromptText = '';
   }
 }
