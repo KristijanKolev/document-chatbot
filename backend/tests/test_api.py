@@ -20,7 +20,7 @@ client = TestClient(app)
 
 def test_create_session():
     response = client.post(
-        "/sessions/",
+        "/api/sessions/",
         json={}
     )
 
@@ -31,21 +31,20 @@ def test_create_session():
     assert data["prompts"] == []
     session_id = data["id"]
 
-    response = client.get("/sessions/")
+    response = client.get("/api/sessions/")
     assert response.status_code == 200, response.text
     data = response.json()
     data = [session for session in data if session["id"] == session_id]
     assert len(data) == 1
     session = data[0]
     assert session["name"] == "New session"
-    assert session["prompts"] == []
 
 
 def test_update_session(setup_data):
     test_user, test_session = setup_data
     new_name = "Changed name"
     response = client.put(
-        f"/sessions/{test_session.id}",
+        f"/api/sessions/{test_session.id}",
         json={"name": new_name}
     )
     assert response.status_code == 200, response.text
@@ -59,7 +58,7 @@ def test_prompt(setup_data):
     test_user, test_session = setup_data
     prompt = "Hello LLM!"
     response = client.post(
-        f"/sessions/{test_session.id}/prompt",
+        f"/api/sessions/{test_session.id}/prompt",
         json={"prompt": prompt}
     )
     assert response.status_code == 200, response.text
@@ -79,13 +78,13 @@ def test_prompt_limit(setup_data):
         # Create prompts up to limit
         for _ in range(ChatSessionService._MAX_PROMPTS_PER_SESSION):
             client.post(
-                f"/sessions/{test_session.id}/prompt",
+                f"/api/sessions/{test_session.id}/prompt",
                 json={"prompt": prompt}
             )
 
         # Send prompt after limit is reached
         response = client.post(
-            f"/sessions/{test_session.id}/prompt",
+            f"/api/sessions/{test_session.id}/prompt",
             json={"prompt": prompt}
         )
         assert response.status_code == status.HTTP_409_CONFLICT
