@@ -16,7 +16,7 @@ class CRUDChatSession(CRUDBase[ChatSession, ChatSessionCreate, ChatSessionUpdate
 
     def get_all_for_user_after_timestamp(self, db: Session, user: User, timestamp: datetime) -> list[ChatSession]:
         return db.query(ChatSession).filter(
-                    ChatSession.user_id == user.id and
+                    ChatSession.user_id == user.id,
                     ChatSession.created_at >= timestamp
                 ).order_by(ChatSession.created_at.asc()).all()
 
