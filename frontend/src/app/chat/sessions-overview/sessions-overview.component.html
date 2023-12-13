@@ -5,10 +5,11 @@
   <button id="add-session-button"
           class="btn btn-outline-primary"
           title="Create new chat session"
+          (click)="createNewSession()"
   >
     <i class="bi bi-plus-lg"></i>
   </button>
-  <div *ngFor="let session of chatSessions"
+  <div *ngFor="let session of allSessions"
        (click)="sessionClick(session)"
        class="item-container mt-2 px-2 border border-dark-subtle"
        [ngClass]="{'selected-session': session.id == selectedSession?.id}"

@@ -1,15 +1,15 @@
 <div id="main-container" class="">
   <div id="chat-history-box" class="border border-dark-subtle p-2">
   <ng-container *ngFor="let prompt of chatSession?.prompts">
-    <div class="prompt-container m-1">
-      <span class="message-bubble prompt-bubble bg-primary-subtle p-2">
+    <div class="message-container prompt-container m-1">
+      <div class="message-bubble bg-primary-subtle p-2">
         {{prompt.prompt}}
-      </span>
+      </div>
     </div>
-    <div class="m-1" *ngIf="prompt.answer">
-      <span class="message-bubble answer-bubble bg-success-subtle p-2">
+    <div class="message-container m-1" *ngIf="prompt.answer">
+      <div class="message-bubble bg-success-subtle p-2">
         {{prompt.answer}}
-      </span>
+      </div>
     </div>
   </ng-container>
   </div>

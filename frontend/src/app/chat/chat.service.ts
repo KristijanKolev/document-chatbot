@@ -15,7 +15,7 @@ export class ChatService {
   ) { }
 
   public loadChatSessions(): Observable<ChatSessionSimple[]> {
-    return this.http.get<ChatSessionSimple[]>('/api/sessions')
+    return this.http.get<ChatSessionSimple[]>('/api/sessions');
   }
 
   public loadChatSessionDetails(chatSessionID: number): Observable<ChatSession> {
@@ -24,5 +24,9 @@ export class ChatService {
 
   public createPrompt(chatSessionID: number, promptText: string): Observable<ChatPrompt> {
     return this.http.post<ChatPrompt>(`/api/sessions/${chatSessionID}/prompt`, {'prompt': promptText});
+  }
+
+  public createChatSession(): Observable<ChatSession> {
+    return this.http.post<ChatSession>(`/api/sessions/`, {});
   }
 }
