@@ -29,4 +29,8 @@ export class ChatService {
   public createChatSession(): Observable<ChatSession> {
     return this.http.post<ChatSession>(`/api/sessions/`, {});
   }
+
+  public renameChatSession(chatSessionID: number, name: string): Observable<ChatSession> {
+    return this.http.put<ChatSession>(`/api/sessions/${chatSessionID}`, {name: name});
+  }
 }

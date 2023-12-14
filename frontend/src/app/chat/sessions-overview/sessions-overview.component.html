@@ -10,10 +10,25 @@
     <i class="bi bi-plus-lg"></i>
   </button>
   <div *ngFor="let session of allSessions"
+       (dblclick)="startSessionEditing(session)"
        (click)="sessionClick(session)"
        class="item-container mt-2 px-2 border border-dark-subtle"
        [ngClass]="{'selected-session': session.id == selectedSession?.id}"
   >
-    {{session.name}}
+    <ng-container *ngIf="!nameEditingSession || nameEditingSession.id != session.id; else edditingSession">
+      {{session.name}}
+    </ng-container>
+
+    <ng-template #edditingSession>
+      <input
+        type="text"
+        [(ngModel)]="nameEditingInputValue"
+        (keyup.enter)="finishSessionEditing(session)"
+        (keyup.escape)="cancelSessionEditing()"
+        (click)="$event.stopPropagation()"
+        autofocus
+        class="form-control name-input-field"
+      >
+    </ng-template>
   </div>
 </div>

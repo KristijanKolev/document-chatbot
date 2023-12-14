@@ -12,6 +12,10 @@ export class SessionsOverviewComponent implements OnInit{
 
   allSessions: ChatSessionSimple[] = [];
   selectedSession?: ChatSessionSimple;
+  nameEditingSession?: ChatSessionSimple; // Will be set when a user clicks to edit the name of a session.
+  nameEditingInputValue: string = '';
+
+  private isSingleSessionNameClick: boolean = false;
 
   constructor(
     private chatService: ChatService
@@ -22,8 +26,16 @@ export class SessionsOverviewComponent implements OnInit{
   }
 
   sessionClick(session: ChatSessionSimple) {
-    this.selectedSession = session;
-    this.onSessionSelect.emit(session)
+    if (!this.isSingleSessionNameClick) {
+      this.isSingleSessionNameClick = true;
+      setTimeout(() => {
+        if (this.isSingleSessionNameClick) {
+          this.selectedSession = session;
+          this.onSessionSelect.emit(session);
+          this.isSingleSessionNameClick = false;
+        }
+      }, 250);
+    }
   }
 
   createNewSession() {
@@ -33,7 +45,31 @@ export class SessionsOverviewComponent implements OnInit{
     })
   }
 
-  private loadAllSessions(): void {
+  startSessionEditing(session: ChatSessionSimple) {
+    this.isSingleSessionNameClick = false;
+    this.nameEditingSession = session;
+    this.nameEditingInputValue = session.name;
+  }
+
+  finishSessionEditing(session: ChatSessionSimple) {
+    this.chatService.renameChatSession(session.id, this.nameEditingInputValue).subscribe({
+      next: _ => {
+        this.loadAllSessions();
+      },
+      error: err => {
+        console.error('Error renaming chat session. ', err);
+        this.loadAllSessions();
+      },
+    });
+    this.cancelSessionEditing();
+  }
+
+  cancelSessionEditing() {
+    this.nameEditingSession = undefined;
+    this.nameEditingInputValue = '';
+  }
+
+  private loadAllSessions() {
     this.chatService.loadChatSessions().subscribe({
       next: sessions => this.allSessions = sessions,
       error: err => console.error('Error fetching chat sessions. ', err),
