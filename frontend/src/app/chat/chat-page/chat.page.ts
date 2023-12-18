@@ -9,20 +9,13 @@ import {ChatPrompt} from "../../models/chatPrompt";
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.css']
 })
-export class ChatPage implements OnInit{
+export class ChatPage {
   allSessions: ChatSessionSimple[] = [];
   selectedSession?: ChatSession = undefined;
 
   constructor(
     private chatService: ChatService
   ) { }
-
-  ngOnInit(): void {
-    this.chatService.loadChatSessions().subscribe({
-      next: sessions => this.allSessions = sessions,
-      error: err => console.log('ERROR: ', err),
-    })
-  }
 
   onSessionSelected(session: ChatSessionSimple) {
     this.chatService.loadChatSessionDetails(session.id).subscribe({

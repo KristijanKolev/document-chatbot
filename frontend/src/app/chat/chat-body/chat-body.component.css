@@ -7,14 +7,18 @@
   border-radius: 10px;
 }
 
+.message-container {
+  display: flex;
+}
+
+.prompt-container {
+  flex-direction: row-reverse;
+}
+
 .message-bubble {
   border-radius: 8px;
   display: inline-block;
   max-width: 80%;
-}
-
-.prompt-container {
-  text-align: right;
 }
 
 #input-box {

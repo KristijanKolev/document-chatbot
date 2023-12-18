@@ -28,7 +28,8 @@ class ChatSessionService:
             earliest_session = recent_user_sessions[0]
             # Calculate when a new session can be created
             wait_delta = period_timedelta - (ts_now - earliest_session.created_at)
-            wait_hours, wait_minutes = wait_delta.seconds // 3600, (wait_delta.seconds // 60) % 60
+            wait_hours = int(wait_delta.total_seconds() // 3600)
+            wait_minutes = int((wait_delta.total_seconds() // 60) % 60) + 1
             if wait_hours > 0:
                 wait_time_str = f"{wait_hours} hours, {wait_minutes} minutes"
             else:
