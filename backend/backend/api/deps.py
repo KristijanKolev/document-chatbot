@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 from langchain.vectorstores import VectorStore, Chroma
 from langchain.embeddings import GPT4AllEmbeddings
 from langchain.chains import ConversationalRetrievalChain
+from langchain.schema import BaseMessage
+from langchain.schema.runnable import RunnableSerializable
 from chromadb import HttpClient as ChromaHttpClient
 from jose import JWTError, jwt
 
@@ -47,6 +49,10 @@ def get_vector_store() -> Chroma:
 def get_conversation_chain(
         vector_store: Annotated[VectorStore, Depends(get_vector_store)]) -> ConversationalRetrievalChain:
     return llm_utils.build_conversation_chain(vector_store)
+
+
+def get_session_title_chain() -> RunnableSerializable[dict, BaseMessage]:
+    return llm_utils.build_title_generation_chain()
 
 
 oauth2_scheme = OAuth2Bearer(auto_error=True)
