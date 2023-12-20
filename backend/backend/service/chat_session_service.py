@@ -46,7 +46,8 @@ class ChatSessionService:
 
     def process_prompt(self, llm_chain: ConversationalRetrievalChain, session: models.ChatSession,
                        prompt_in: schemas.ChatPromptIn, session_title_chain: RunnableSerializable[dict, BaseMessage]
-                       ) -> schemas.ChatPrompt:
+                       ) -> schemas.SessionPromptingResponse:
+        session_updated = False
         if len(session.prompts) >= self._MAX_PROMPTS_PER_SESSION:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
@@ -60,6 +61,7 @@ class ChatSessionService:
             if auto_name:
                 session_in = schemas.ChatSessionUpdate(name=auto_name)
                 crud.chat_session.update(self.db, db_obj=session, obj_in=session_in)
+                session_updated = True
 
         # Format previous prompts and answers to be used by the LLM chain
         chat_history = [(prompt.prompt, prompt.answer) for prompt in session.prompts]
@@ -70,4 +72,5 @@ class ChatSessionService:
 
         prompt_create = schemas.ChatPromptCreate(prompt=prompt_in.prompt, answer=result['answer'],
                                                  session_id=session.id)
-        return crud.chat_prompt.create(self.db, obj_in=prompt_create)
+        prompt = crud.chat_prompt.create(self.db, obj_in=prompt_create)
+        return schemas.SessionPromptingResponse(prompt=prompt, session_updated=session_updated)

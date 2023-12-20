@@ -3,6 +3,7 @@ from .chat_prompt import ChatPrompt, ChatPromptCreate, ChatPromptIn, ChatPromptS
 from .basic import BasicErrorResponse
 from .user import User
 from .token import TokenData, Token
+from .api_responses import SessionPromptingResponse
 
 # Update the references that are as strings
 ChatSession.model_rebuild()

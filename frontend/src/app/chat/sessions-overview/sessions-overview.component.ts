@@ -22,7 +22,13 @@ export class SessionsOverviewComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    this. loadAllSessions();
+    this.chatService.allSessions.subscribe(
+      sessions => {
+        this.allSessions = sessions;
+        console.log('Sessions received!');
+      }
+    );
+    this.chatService.refreshChatSessions();
   }
 
   sessionClick(session: ChatSessionSimple) {
@@ -39,10 +45,7 @@ export class SessionsOverviewComponent implements OnInit{
   }
 
   createNewSession() {
-    this.chatService.createChatSession().subscribe({
-      next: _ => this.loadAllSessions(),
-      error: err => console.error('Error creating new chat session. ', err),
-    })
+    this.chatService.createChatSession();
   }
 
   startSessionEditing(session: ChatSessionSimple) {
@@ -52,27 +55,12 @@ export class SessionsOverviewComponent implements OnInit{
   }
 
   finishSessionEditing(session: ChatSessionSimple) {
-    this.chatService.renameChatSession(session.id, this.nameEditingInputValue).subscribe({
-      next: _ => {
-        this.loadAllSessions();
-      },
-      error: err => {
-        console.error('Error renaming chat session. ', err);
-        this.loadAllSessions();
-      },
-    });
+    this.chatService.renameChatSession(session.id, this.nameEditingInputValue);
     this.cancelSessionEditing();
   }
 
   cancelSessionEditing() {
     this.nameEditingSession = undefined;
     this.nameEditingInputValue = '';
-  }
-
-  private loadAllSessions() {
-    this.chatService.loadChatSessions().subscribe({
-      next: sessions => this.allSessions = sessions,
-      error: err => console.error('Error fetching chat sessions. ', err),
-    });
   }
 }

@@ -53,7 +53,7 @@ def update_session(
 
 @router.post(
     "/{session_id}/prompt",
-    response_model=schemas.ChatPrompt,
+    response_model=schemas.SessionPromptingResponse,
     responses={status.HTTP_409_CONFLICT: {'model': schemas.BasicErrorResponse}}
 )
 def prompt_session(
