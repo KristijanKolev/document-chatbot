@@ -14,9 +14,6 @@ export class ChatBodyComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     let newSession = changes['chatSession'];
-
-    console.log(this.chatSession);
-
     if (newSession) {
       this.newPromptText = '';
     }
