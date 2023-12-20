@@ -15,9 +15,10 @@
        class="item-container mt-2 px-2 border border-dark-subtle"
        [ngClass]="{'selected-session': session.id == selectedSession?.id}"
   >
-    <ng-container *ngIf="!nameEditingSession || nameEditingSession.id != session.id; else edditingSession">
+    <span *ngIf="!nameEditingSession || nameEditingSession.id != session.id; else edditingSession"
+          [title]="session.name">
       {{session.name}}
-    </ng-container>
+    </span>
 
     <ng-template #edditingSession>
       <input
