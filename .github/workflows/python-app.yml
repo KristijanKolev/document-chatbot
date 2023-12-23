@@ -40,5 +40,4 @@ jobs:
         
     - name: Test with pytest
       run: |
-        poetry shell
-        pytest
+        poetry run pytest
