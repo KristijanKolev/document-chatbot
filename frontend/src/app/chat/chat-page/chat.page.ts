@@ -37,10 +37,10 @@ export class ChatPage {
       }
       this.selectedSession.prompts.push(newPrompt);
       this.chatService.createPrompt(this.selectedSession.id, promptText).subscribe({
-        next: answeredPrompt => {
+        next: resp => {
           if (this.selectedSession) {
             const lastPromptIndex = this.selectedSession.prompts.length - 1;
-            this.selectedSession.prompts[lastPromptIndex] = answeredPrompt;
+            this.selectedSession.prompts[lastPromptIndex] = resp.prompt;
           }
         },
         error: err => {

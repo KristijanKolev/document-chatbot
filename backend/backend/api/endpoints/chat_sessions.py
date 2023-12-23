@@ -3,11 +3,12 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from langchain.chains import ConversationalRetrievalChain
+from langchain.schema.runnable import RunnableSerializable
 
 from backend import schemas, crud
 from backend.models import User
 from backend.service import ChatSessionService
-from ..deps import get_db, get_chat_session_service, get_conversation_chain, get_current_user
+from ..deps import get_db, get_chat_session_service, get_conversation_chain, get_current_user, get_session_title_chain
 
 
 router = APIRouter()
@@ -52,7 +53,7 @@ def update_session(
 
 @router.post(
     "/{session_id}/prompt",
-    response_model=schemas.ChatPrompt,
+    response_model=schemas.SessionPromptingResponse,
     responses={status.HTTP_409_CONFLICT: {'model': schemas.BasicErrorResponse}}
 )
 def prompt_session(
@@ -60,6 +61,7 @@ def prompt_session(
         user: Annotated[User, Depends(get_current_user)],
         chat_session_service: Annotated[ChatSessionService, Depends(get_chat_session_service)],
         llm_chain: Annotated[ConversationalRetrievalChain, Depends(get_conversation_chain)],
+        session_title_chain: Annotated[RunnableSerializable, Depends(get_session_title_chain)],
         session_id: int,
         prompt_in: schemas.ChatPromptIn,
 ):
@@ -67,4 +69,5 @@ def prompt_session(
     if session.user != user:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
-    return chat_session_service.process_prompt(llm_chain=llm_chain, session=session, prompt_in=prompt_in)
+    return chat_session_service.process_prompt(llm_chain=llm_chain, session=session, prompt_in=prompt_in,
+                                               session_title_chain=session_title_chain)

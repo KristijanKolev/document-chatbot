@@ -5,10 +5,10 @@ from pydantic import field_validator, PostgresDsn, ValidationInfo
 
 
 class Settings(BaseSettings):
-    POSTGRES_SERVER: str
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_DB: str
+    POSTGRES_SERVER: str = ''
+    POSTGRES_USER: str = ''
+    POSTGRES_PASSWORD: str = ''
+    POSTGRES_DB: str = ''
     SQLALCHEMY_DATABASE_URI: PostgresDsn | None = None
 
     @field_validator("SQLALCHEMY_DATABASE_URI")
@@ -23,16 +23,16 @@ class Settings(BaseSettings):
             path=f"{info.data.get('POSTGRES_DB') or ''}",
         )
 
-    CHROMA_HOST: str
-    CHROMA_PORT: int
-    CHROMA_COLLECTION: str
+    CHROMA_HOST: str = ''
+    CHROMA_PORT: int = 0
+    CHROMA_COLLECTION: str = ''
 
     # OAUTH config
-    GITHUB_CLIENT_ID: str
-    GITHUB_SECRET: str
+    GITHUB_CLIENT_ID: str = ''
+    GITHUB_SECRET: str = ''
     OAUTH_SUCCESS_REDIRECT_URL: str = "http://localhost:4200/"
 
-    JWT_SECRET_KEY: str
+    JWT_SECRET_KEY: str = ''
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRATION_DELTA: int = 15  # in minutes
 

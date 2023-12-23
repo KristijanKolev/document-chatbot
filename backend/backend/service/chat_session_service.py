@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 from langchain.chains import ConversationalRetrievalChain
+from langchain.schema import BaseMessage
+from langchain.schema.runnable import RunnableSerializable
 
 from backend import models, schemas, crud
 from backend.config.settings import settings
@@ -43,13 +45,23 @@ class ChatSessionService:
         return crud.chat_session.create(self.db, obj_in=chat_session_in)
 
     def process_prompt(self, llm_chain: ConversationalRetrievalChain, session: models.ChatSession,
-                       prompt_in: schemas.ChatPromptIn) -> schemas.ChatPrompt:
+                       prompt_in: schemas.ChatPromptIn, session_title_chain: RunnableSerializable[dict, BaseMessage]
+                       ) -> schemas.SessionPromptingResponse:
+        session_updated = False
         if len(session.prompts) >= self._MAX_PROMPTS_PER_SESSION:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
                 detail=f"Exceeded limit of {self._MAX_PROMPTS_PER_SESSION} prompts per session! "
                        f"Create a new session and prompt away!"
             )
+        if len(session.prompts) == 0 and session.name == self._DEFAULT_SESSION_NAME:
+            auto_name = session_title_chain.invoke({"prompt": prompt_in.prompt}).content
+            # The chain will return an empty string if it's unable to generate a title. Only update if this is not the
+            # case.
+            if auto_name:
+                session_in = schemas.ChatSessionUpdate(name=auto_name)
+                crud.chat_session.update(self.db, db_obj=session, obj_in=session_in)
+                session_updated = True
 
         # Format previous prompts and answers to be used by the LLM chain
         chat_history = [(prompt.prompt, prompt.answer) for prompt in session.prompts]
@@ -60,4 +72,5 @@ class ChatSessionService:
 
         prompt_create = schemas.ChatPromptCreate(prompt=prompt_in.prompt, answer=result['answer'],
                                                  session_id=session.id)
-        return crud.chat_prompt.create(self.db, obj_in=prompt_create)
+        prompt = crud.chat_prompt.create(self.db, obj_in=prompt_create)
+        return schemas.SessionPromptingResponse(prompt=prompt, session_updated=session_updated)
