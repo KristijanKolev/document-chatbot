@@ -2,7 +2,7 @@ from typing import Annotated
 from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Request, Depends, HTTPException, status
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, Response
 from fastapi_sso.sso.github import GithubSSO
 from jose import JWTError, jwt
 
@@ -52,12 +52,14 @@ async def github_auth_callback(
 
 
 @router.get("/refresh-token", response_model=schemas.Token)
-def refresh_token(token: Annotated[str, Depends(oauth2_scheme)]):
+def refresh_token(token: Annotated[str, Depends(oauth2_scheme)], response: Response):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+    expires_delta = timedelta(minutes=settings.JWT_EXPIRATION_DELTA)
+    expires_seconds = settings.JWT_EXPIRATION_DELTA * 60
     try:
         payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
         token_data = schemas.TokenData.model_validate(payload, strict=False)
@@ -66,6 +68,7 @@ def refresh_token(token: Annotated[str, Depends(oauth2_scheme)]):
     except JWTError:
         raise credentials_exception
 
-    new_token = create_access_token(token_data.model_dump())
+    new_token = create_access_token(token_data.model_dump(), expires_delta=expires_delta)
+    response.set_cookie(key="jwt", value=new_token, max_age=expires_seconds)
     return schemas.Token(access_token=new_token, token_type='bearer')
 
