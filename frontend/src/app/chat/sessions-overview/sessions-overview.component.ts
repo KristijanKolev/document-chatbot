@@ -25,7 +25,6 @@ export class SessionsOverviewComponent implements OnInit{
     this.chatService.allSessions.subscribe(
       sessions => {
         this.allSessions = sessions;
-        console.log('Sessions received!');
       }
     );
     this.chatService.refreshChatSessions();
